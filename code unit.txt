@@ -1,0 +1,39 @@
+
+OnRun()
+//Item.INIT;
+//Item."No." := '10004';
+//Item."Unit Cost" := 10000;
+//Item."Inventory Posting Group":= '1234';
+//Item."Unit Price" := 25000;
+//Item.INSERT;
+
+Vendor.INIT;
+IF Vendor.Name = '' THEN BEGIN
+ PurchasesPayablesSetup.GET;
+  PurchasesPayablesSetup.TESTFIELD("Vendor Nos.");
+  Vendor.Name:= NoSeriesManagement.GetNextNo(PurchasesPayablesSetup."Vendor Nos.",TODAY,TRUE);
+
+
+//Vendor."No." := '10010';
+Vendor.Name:= 'dexith';
+Vendor.Address := 'Hitech city';
+Vendor.Balance := 50000;
+Vendor."Gen. Bus. Posting Group" := 'EU';
+Vendor."Vendor Posting Group" := 'Foreign Vendor';
+
+Vend.RESET;
+Vend.SETRANGE(Name,Vendor.Name);
+IF Vend.FINDFIRST THEN
+  REPEAT
+   ERROR('record already Exists');
+    UNTIL Vend.NEXT = 0;
+
+Vendor.INSERT;
+ END  
+
+//Cust.RESET;
+//Cust.SETRANGE(Name,Customer.Name);
+//IF Cust.FINDFIRST THEN
+//  REPEAT
+ //   ERROR('record already Exists');
+ //   UNTIL Cust.NEXT = 0;
